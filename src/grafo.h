@@ -50,7 +50,7 @@ int grau_maximo(grafo_t *G);
 
 /* DFS:
  *    - recebe um grafo G e um vértice s
- *    - aplica a busca em largura em G a partir de s
+ *    - aplica a busca em profundidade em G a partir de s
  *
  *      DFS(G, s)
  *          marque todos os vértices como não visitados
@@ -62,7 +62,7 @@ int grau_maximo(grafo_t *G);
  *              se v não está visitado
  *                  DFSRec(G, v)
  *
- *      (explicação completa da busca em largura: Seção 20.2 de http://professor.ufabc.edu.br/~carla.negri/cursos/materiais/Livro-Analise.de.Algoritmos.pdf)
+ *      (explicação completa da busca em profundidade: Seção 20.2 de http://professor.ufabc.edu.br/~carla.negri/cursos/materiais/Livro-Analise.de.Algoritmos.pdf)
  *
  *    - retorna um vetor indexado por vértices que indica se um vértice foi visitado ou não */
 int *DFS(grafo_t *G, int s);
