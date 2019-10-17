@@ -10,6 +10,7 @@
 
 /**************************************Lista 1************************************/
 
+//nome alternativo para a struct grafo
 typedef struct grafo grafo_t;
 
 /* cria_grafo:
@@ -57,7 +58,7 @@ int grau_maximo(grafo_t *G);
  *          DSFRec(G, s)
  *
  *      DFSRec(G, s)
- *          marque s como visitado
+ *          marque s como visitado 
  *          para todo vizinho v de s
  *              se v não está visitado
  *                  DFSRec(G, v)
