@@ -76,4 +76,19 @@ int *DFS(grafo_t *G, int s);
  */
 int eh_aresta_corte(grafo_t *G, int u, int v);
 
+/* eh_par:
+ *    - recebe um grafo G
+ *    - retorna 1 se G e impar
+ *    - retorna 0 caso contrario
+ */
+int eh_par(grafo_t *G);
+
+/* Fleury:
+ *    - recebe um grafo G *PAR* e um vertice v
+ *    - retorna um vetor que contem a sequencia de vertices de uma trilha euleriana em G
+ *      - em particular, esse vetor contem v na primeira e ultima posicoes
+ *    - IMPORTANTE: quando houver dois ou mais vertices possiveis de serem escolhidos, comece pelo de menor indice
+ */
+int *Fleury(grafo_t *G, int v);
+
 #endif /* __GRAFO_H */
