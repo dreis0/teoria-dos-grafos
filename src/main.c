@@ -33,6 +33,8 @@ int main(int argc, char *argv[])
     }
     else
     {
+        printf("O grafo é par \n");
+
         /* Esperado: vertice inicial do Fleury */
         scanf("%d", &u);
         trilha = Fleury(G, u);

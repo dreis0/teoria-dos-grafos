@@ -9,7 +9,11 @@ struct grafo
     int **adjacency;
 };
 
+/**************** Funções Auxiliares ****************/
+
 void DFSRec(grafo_t *G, int s);
+
+/****************************************************/
 
 /* cria_grafo:
  *    - recebe número n de vértices e m de arestas
@@ -189,5 +193,89 @@ int eh_aresta_corte(grafo_t *G, int u, int v)
         if (visitados[i] == 0)
             nao_visitados_sem_uv++;
 
+    adiciona_aresta(G, u, v);
+
     return nao_visitados != nao_visitados_sem_uv;
+}
+
+/* eh_par:
+ *    - recebe um grafo G
+ *    - retorna 1 se G e impar
+ *    - retorna 0 caso contrario
+ */
+int eh_par(grafo_t *G)
+{
+    int aux;
+
+    for (int i = 0; i < G->v; i++)
+    {
+        aux = 0;
+        for (int j = 0; j < G->v; j++)
+        {
+            aux += G->adjacency[i][j];
+        }
+
+        if (aux % 2 != 0)
+            return 0;
+    }
+
+    return 1;
+}
+
+int *fleury_trilha;
+
+/* Fleury:
+ *    - recebe um grafo G *PAR* e um vertice v
+ *    - retorna um vetor que contem a sequencia de vertices de uma trilha euleriana em G
+ *      - em particular, esse vetor contem v na primeira e ultima posicoes
+ *    - IMPORTANTE: quando houver dois ou mais vertices possiveis de serem escolhidos, comece pelo de menor indice
+ */
+int *Fleury(grafo_t *G, int v)
+{
+    fleury_trilha = malloc((G->m + 1) * sizeof(int));
+
+    for (int i = 0; i <= G->m; i++)
+    {
+        fleury_trilha[i] = 0;
+    }
+
+    int qtd_vizinhos, aux_menor_vertice;
+    int *vizinhos = malloc((G->v - 1) * sizeof(int));
+
+    for (int i = 0; i < G->m; i++) //Executa uma vez por aresta
+    {
+        fleury_trilha[i] = v;
+        qtd_vizinhos = 0;
+
+        for (int j = 0; j < G->v; j++) //Encontra os vizinhos de v
+        {
+            if (G->adjacency[v][j])
+            {
+                vizinhos[qtd_vizinhos] = j;
+                qtd_vizinhos++;
+            }
+        }
+
+        aux_menor_vertice = G->v + 1;
+
+        for (int j = 0; j < qtd_vizinhos; j++) //Encontra o menor vizinho que não forma aresta de corte
+        {
+            if (!eh_aresta_corte(G, v, vizinhos[j]) && vizinhos[j] < aux_menor_vertice)
+                aux_menor_vertice = vizinhos[j];
+        }
+
+        if (aux_menor_vertice == G->v + 1)
+        {
+            for (int j = 0; j < qtd_vizinhos; j++) //Encontra o menor vizinho
+            {
+                if (vizinhos[j] < aux_menor_vertice)
+                    aux_menor_vertice = vizinhos[j];
+            }
+        }
+
+        remove_aresta(G, v, aux_menor_vertice);
+        v = aux_menor_vertice;
+    }
+
+    return fleury_trilha;
 }
