@@ -13,6 +13,8 @@ struct grafo
 
 void DFSRec(grafo_t *G, int s);
 
+int existe_nao_visitado(int *visitados, int num_vertices);
+
 /****************************************************/
 
 /* cria_grafo:
@@ -278,4 +280,65 @@ int *Fleury(grafo_t *G, int v)
     }
 
     return fleury_trilha;
+}
+
+/* Dijkstra:
+ *    - recebe um grafo G conexo, um vertice inicio e uma matriz que contem os pesos das arestas
+ *    - retorna um vetor que contem a distancia entre inicio e todos os outros vertices
+ */
+int *Dijkstra(grafo_t *G, int inicio, int **peso)
+{
+    printf("Dijkstra");
+    int n = G->v;
+    int *visitados = malloc(sizeof(int) * n);
+    int *distancias = malloc(sizeof(int) * n);
+    int *predecessores = malloc(sizeof(int) * n);
+
+    for (int i = 0; i < G->v; i++)
+    {
+        distancias[i] = 9999;
+        predecessores[i] = -1;
+        visitados[i] = 0;
+    }
+
+    distancias[inicio] = 0;
+    // visitados[inicio] = 1;
+    int u = inicio;
+
+    while (existe_nao_visitado(visitados, n))
+    {
+        int aux = 9999;
+        for (int i = 0; i < n; i++)
+        {
+            if (visitados[i] == 0 && distancias[i] < aux)
+            {
+                aux = distancias[i];
+                u = i;
+            }
+        }
+
+        visitados[u] = 1;
+        for (int i = 0; i < n; i++)
+        {
+            if (G->adjacency[u][i] == 1)
+                if (visitados[i] == 0 && distancias[u] + peso[u][i] < distancias[i])
+                {
+                    distancias[i] = distancias[u] + peso[u][i];
+                    predecessores[i] = u;
+                }
+        }
+    }
+
+    return distancias;
+}
+
+int existe_nao_visitado(int *visitados, int num_vertices)
+{
+    for (int i = 0; i < num_vertices; i++)
+    {
+        if (visitados[i] == 0)
+            return 1;
+    }
+
+    return 0;
 }
