@@ -2,7 +2,7 @@
 
 Este repositório contém os exercícios da disciplina "Teoria dos Grafos" na UFABC.
 
-Foram três listas com algoritmos diversos relacionados à grafos.
+Foram três listas com algoritmos diversos relacionados a grafos.
 
 As implementações foram feitas com a linguagem C por uma demanda do professor da disciplina.
 
